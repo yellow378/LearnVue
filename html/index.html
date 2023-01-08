@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Storage</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app1">
+        <p>
+            {{a}}
+        </p>
+    </div>
+    <div id="app2">
+        <span v-bind:title="a">
+            悬停几秒
+        </span>
+    </div>
+    <div id="app3">
+        <p v-if="seen">现在你看到我了</p>
+    </div>
+    <div id = "app4">
+        <ol>
+            <li v-for="todo in todos">
+                {{todo.text}}
+            </li>
+        </ol>
+    </div>
+    <div id="app5">
+        <p>{{message}}</p>
+        <button v-on:click="reverseMessage">点击反转</button>
+    </div>
+    <div id="app6">
+        <p>{{message}}</p>
+        <input v-model="message">
+    </div>
+    <script type="text/javascript">
+        var vue = new Vue({
+            el:"#app6",
+            data:{
+                message:"Hello vue js!"
+            }
+        })
+    </script>
+</body>
+</html>
