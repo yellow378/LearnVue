@@ -35,7 +35,7 @@
     </script>
 ```
 ### v-bind:缩写 :
-## 条件 v-if
+## 条件渲染 v-if
 ```js
     <div id="app3">
         <p v-if="seen">现在你看到我了</p>
@@ -49,6 +49,9 @@
         })
     </script>
 ```
+### v-else
+### v-else-if
+### 用key管理复用的元素
 
 ## 循环 v-for
 ```js
@@ -83,7 +86,7 @@ vue.todos.push({text:'学习python'})
 ```
 
 ## 处理用户输
-### 事件v-on
+### 事件处理 v-on
 ```js
     <div id="app5">
         <p>{{message}}</p>
@@ -104,8 +107,45 @@ vue.todos.push({text:'学习python'})
         })
     </script>
 ```
+```js
+    <div id="app6">
+        <button v-on:click="changeC('Green')">Green</button>
+        <button v-on:click="changeC('Blue')">Blue</button>
+        <button v-on:click="changeC('Red')">Red</button>
+        <p v-bind:style="{color:color}">This is text!!!</p>
+    </div>
+    <script type="text/javascript"> 
+        var vm = new Vue({
+            el:'#app6',
+            data:{
+                color:'black'
+            },
+            methods:{
+                changeC:function(newcolor){
+                    this.color = newcolor
+                }
+            }
+        })  
+    </script>
+```
 ### 事件v-on:缩写 @
-### 双向绑定 v-model
+### 传入$event
+### 事件修饰符
+```js
+.stop
+.prevent
+.capture
+.self
+.once
+.passive
+```
+## 按键修饰符
+```js
+v-on:keyup.enter='submit'
+```
+## 系统修饰键
+### 鼠标修饰键
+## 双向绑定 v-model
 ```js
     <div id="app6">
         <p>{{message}}</p>
@@ -120,7 +160,97 @@ vue.todos.push({text:'学习python'})
         })
     </script>
 ```
+### 表单输入绑定
+```
+text textaea value input
+checkbox radio checked change
+select value change
+```
+```js
+//文本
+//多行文本
+//单选框
+//复选框
+//单选按钮
+//选择框 单选 多选
+    <div id="app7">
+        <input v-model="message" placeholder="edit me">
+        <p>Message is {{message}}</p>
+        <span>Multiline message is:</span>
+        <p style="white-space: pre-line;" v-bind:style="{color:color}">{{message}}</p>
+        <br>
+        <textarea v-model="message" placeholder="add multiple lines"></textarea>
 
+        <br>
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">{{checked}}</label>
+
+        <br>
+        <input type="checkbox" id="jack" value="jack" v-model="checkNames">
+        <label for="jack">jack</label>
+        <input type="checkbox" id="john" value="john" v-model="checkNames">
+        <label for="john">john</label>
+        <input type="checkbox" id="mike" value="mike" v-model="checkNames">
+        <label for="mike">mike</label>
+        <br>
+        <span>Checked names:{{checkNames}}</span>
+
+        <br>
+        <input type="radio" id="one" value="one" v-model="picked">
+        <label for="one">One</label>
+        <br>
+        <input type="radio" id="two" value="two" v-model="picked">
+        <label for="two">Two</label>
+        <br>
+        <span>picked:{{picked}}</span>
+
+        <br>
+        <select v-model="selected">
+            <optioin disabled value="">请选择</optioin>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <span>Select:{{selected}}</span>
+        <br>
+        <select v-model="multiselected" multiple style="width:50px">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <br>
+        <span>Selected:{{multiselected}}</span>
+        <br>
+        <select v-model="selected2">
+            <optioin disabled value="">请选择</optioin>
+            <option v-for="option in options">{{option}}</option>
+        </select>
+        <span>Select:{{selected2}}</span>
+    </div>
+    <script type="text/javascript"> 
+        var vm = new Vue({
+            el:'#app7',
+            data:{
+                color:'aqua',
+                message:'',
+                checked:false,
+                checkNames:["jack"],
+                picked:'',
+                selected:'',
+                multiselected:[],
+                selected2:'',
+                options:[1,2,3,4,5]
+            },
+            methods:{
+                changeC:function(newcolor,event){
+                    this.color = newcolor
+                    window.alert(event)
+                }
+            }
+        })  
+    </script>
+
+```
 ## 组件化应用构建
 ```js
     <div id="app7">
@@ -273,3 +403,69 @@ computed:{
 }
 ```
 ### 计算属性computed VS 监听属性watch VS 方法methods
+
+## 绑定HTML Class
+```js
+<div id="app1" class="static" v-bind:class="{active:isactive,'text-danger':hasError}">
+    <p>app1</p>
+</div>
+<script type="text/javascript">
+    var vm = new Vue({
+        el:'#app1',
+        data:{
+            isactive:true,
+            hasError:true
+        }
+    })
+</script>
+```
+### 不必内联定义在模板内data中或者计算属性
+```js
+<div v-bind:class="classObject"></div>
+data:{
+    classObject{
+        active:true,
+        'text-danger':false
+    }
+}
+//用计算属性
+data:{
+    isActive:true,
+    error:null
+},
+computed:{
+    classObject:function(){
+        return {
+            active:this.isActive && !this.error,
+            'text-danger':this.error && this.error.type==='fatal'
+        }
+    }
+}
+```
+#### 数组语法 v-bind:class=[' ',' ',' ']
+#### 三元式
+### 用在组件上
+## 绑定内联样式
+```js
+   <div id="app1" v-bind:style="{color:activecolor,fontSize:fontsize+'px'}">
+       app1
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el:'#app1',
+            data:{
+                activecolor:'blue',
+                fontsize:30
+            }
+        })  
+    </script>
+```
+## 列表渲染v-for
+```js
+//v-for 遍历列表
+v-for="(item,index) in items"
+//v-for 遍历对象
+v-for="(value,name) in object"
+```
+
+# 组件

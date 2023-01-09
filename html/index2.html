@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Storage</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app1" v-bind:style="{color:activecolor,fontSize:fontsize+'px'}">
+       app1
+    </div>
+    <div id="app2">
+        <h1 v-if="awesome">Vue is awesome</h1>
+        <h1 v-else>On no!</h1>
+    </div>
+    <div id="app3">
+        <h1 v-show="isshow" style="color:rgb(167, 70, 154)">你好</h1>
+    </div>
+    <div id="app4">
+        <ul>
+            <li v-for="(item,index) in items" :key = item.message>
+                {{index}} - {{item.message}}
+            </li>
+            <li v-for="(value,name) in myobject" :key=name>
+                {{name}}-{{value}}
+            </li>
+        </ul>
+    </div>
+    <div id="app5">
+        <button v-on:click="counter += 1">加1</button>
+        <p style="color:aqua">{{counter}}</p>
+    </div>
+    <div id="app6">
+        <button v-on:click="changeC('Green',$event)">Green</button>
+        <button v-on:click="changeC('Blue',$event)">Blue</button>
+        <button v-on:click="changeC('Red',$event)">Red</button>
+        <p v-bind:style="{color:color}">This is text!!!</p>
+    </div>
+    <div id="app7">
+        <input v-model="message" placeholder="edit me">
+        <p>Message is {{message}}</p>
+        <span>Multiline message is:</span>
+        <p style="white-space: pre-line;" v-bind:style="{color:color}">{{message}}</p>
+        <br>
+        <textarea v-model="message" placeholder="add multiple lines"></textarea>
+
+        <br>
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">{{checked}}</label>
+
+        <br>
+        <input type="checkbox" id="jack" value="jack" v-model="checkNames">
+        <label for="jack">jack</label>
+        <input type="checkbox" id="john" value="john" v-model="checkNames">
+        <label for="john">john</label>
+        <input type="checkbox" id="mike" value="mike" v-model="checkNames">
+        <label for="mike">mike</label>
+        <br>
+        <span>Checked names:{{checkNames}}</span>
+
+        <br>
+        <input type="radio" id="one" value="one" v-model="picked">
+        <label for="one">One</label>
+        <br>
+        <input type="radio" id="two" value="two" v-model="picked">
+        <label for="two">Two</label>
+        <br>
+        <span>picked:{{picked}}</span>
+
+        <br>
+        <select v-model="selected">
+            <optioin disabled value="">请选择</optioin>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <span>Select:{{selected}}</span>
+        <br>
+        <select v-model="multiselected" multiple style="width:50px">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <br>
+        <span>Selected:{{multiselected}}</span>
+        <br>
+        <select v-model="selected2">
+            <optioin disabled value="">请选择</optioin>
+            <option v-for="option in options">{{option}}</option>
+        </select>
+        <span>Select:{{selected2}}</span>
+    </div>
+    <script type="text/javascript"> 
+        var vm = new Vue({
+            el:'#app7',
+            data:{
+                color:'aqua',
+                message:'',
+                checked:false,
+                checkNames:["jack"],
+                picked:'',
+                selected:'',
+                multiselected:[],
+                selected2:'',
+                options:[1,2,3,4,5]
+            },
+            methods:{
+                changeC:function(newcolor,event){
+                    this.color = newcolor
+                    window.alert(event)
+                }
+            }
+        })  
+    </script>
+</body>
+</html>
